@@ -2,7 +2,7 @@
   "name": "api_node",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/infojanio/api_node.git",
+  "repository": "https://github.com/infojanio/api_appSan.git",
   "author": "infojanio <you@example.com>",
   "license": "MIT",
   "scripts": {
