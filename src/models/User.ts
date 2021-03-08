@@ -1,10 +1,10 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn } from "typeorm";
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
 
 @Entity("users")
 class User {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     //readonly -> quem acessar User, não conseguirá alterar o valor do "id"
     readonly id: string;
 
@@ -12,10 +12,26 @@ class User {
     name: string;
 
     @Column()
+    matricula: string;
+
+    @Column()
     email: string;
 
+    @Column()
+    password: string;
+
+    @Column()
+    whatsapp: string;
+
+    @Column()
+    avatar: string;
+
+    
     @CreateDateColumn()
     created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 
     //faz a verificação se o id já existe, pois quando tivermos editando queremos usar o id existente
     constructor() {
@@ -26,4 +42,4 @@ class User {
 
 }
 
-export {User}
+export default User;
