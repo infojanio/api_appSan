@@ -12,14 +12,19 @@ export default class CreatePoints1615164521596 implements MigrationInterface {
                     type: 'uuid',
                     isPrimary: true,
                     generationStrategy: 'uuid',
-                 //   default: 'uuid_generate_v4()',
+                    default: 'uuid_generate_v4()',
                   },
 
+             
+
+                                     
+                  /*
                   {
-                    name: 'provider_id',
+                    name: 'type_id',
                     type: 'uuid',
-                    isNullable: true,
+                    isNullable: false,
                   },
+                  */
 
                   {
                     name: 'date',
@@ -37,14 +42,17 @@ export default class CreatePoints1615164521596 implements MigrationInterface {
                     type: 'varchar',
                   },
 
+               
                   {
-                    name: 'latitude',
-                    type: 'integer',
+                    name: "latitude",
+                    type: "float",
+                    isNullable: true,
                   },
 
                   {
-                    name: 'longitude',
-                    type: 'integer',
+                    name: "longitude",
+                    type: "float",
+                    isNullable: true,
                   },
 
                   {
@@ -68,25 +76,14 @@ export default class CreatePoints1615164521596 implements MigrationInterface {
                     type: 'timestamp',
                     default: 'now()',
                   },
-
-                ],
-                foreignKeys: [
-                  {
-                    name: 'PointUser',
-                    referencedTableName: 'users',
-                    referencedColumnNames: ['id'],
-                    columnNames: ['provider_id'],
-                    onDelete: 'CASCADE',
-                    onUpdate: 'CASCADE',
-                  },
-                ],
+                  
+                ],  
+           
 
               }),
             );
-          }
-  
+          } 
                
-
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('points');
     }

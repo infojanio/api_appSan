@@ -15,6 +15,11 @@ export default class CreatePointTypes1615215589321 implements MigrationInterface
             //      default: 'uuid_generate_v4()',
                 },
 
+                {
+                  name: 'provider_id',
+                  type: 'uuid',
+                  isNullable: false,
+                },
         
                 {
                     name: 'point_id',
@@ -45,8 +50,18 @@ export default class CreatePointTypes1615215589321 implements MigrationInterface
     ],
 
     foreignKeys: [
+
       {
-        name: 'PointType',
+        name: 'FKUser',
+        referencedTableName: 'users',
+        referencedColumnNames: ['id'],
+        columnNames: ['provider_id'],
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
+
+      {
+        name: 'FKPoint',
         referencedTableName: 'points',
         referencedColumnNames: ['id'],
         columnNames: ['point_id'],
@@ -54,10 +69,8 @@ export default class CreatePointTypes1615215589321 implements MigrationInterface
         onUpdate: 'CASCADE',
       },
     
-
-
       {
-        name: 'TypePoint',
+        name: 'FKType',
         referencedTableName: 'types',
         referencedColumnNames: ['id'],
         columnNames: ['type_id'],

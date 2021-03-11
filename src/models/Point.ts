@@ -1,8 +1,20 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { 
+    Entity, 
+    Column, 
+    CreateDateColumn, 
+    UpdateDateColumn, 
+    PrimaryGeneratedColumn, 
+    ManyToOne, 
+    JoinColumn, 
+    ManyToMany,
+    OneToOne,
+    OneToMany} from "typeorm";
+
 import User from './User';
+import Type from "./Type";
 import { v4 as uuid } from 'uuid';
 
-@Entity("points")
+@Entity("points") //quando usamos @Entity o construtor() é criado de forma automática
 class Point {
     
 
@@ -11,8 +23,20 @@ class Point {
     readonly id: string;
 
     @Column()
-    provider_id: string; // Relacionamento que pega o prestador pelo id
+    provider_id: string;
 
+    @OneToOne(()=> User)  //muitos pontos de vazamentos para 1 prestador
+    @JoinColumn({name: 'provider_id'})
+    provider: User;
+
+    @Column()
+    type_id: string;
+
+    @ManyToMany(()=> Type)  //Muitos pontos de vazamentos para muitos tipos de ocorrencia
+    @JoinColumn({name: 'type_id'})
+    type: Type;
+   
+    
     @Column('timestamp with time zone')
     date: Date;
 
@@ -54,25 +78,4 @@ export default Point;
 
 
 
-    /* Relacionamento entre tabelas
-Um para um (OneToOne)
-Um para muitos (OneToMany)
-Muitos para muitos (ManyToMany)
-*/
-// atenção: como estamos dentro Points, então a relação será ManyToOne
-
-/*
-
-  
-    @ManyToOne(() => User // Muitas marcações de pontos para um prestador
-    @JoinColumn({ name: 'provider_id' })
-    provider: User;
-  
-    @Column()
-    user_id: string; // Relacionamento que pega o prestador pelo id
-  
-    @ManyToOne(() => User) // Muitos agendamentos para um prestador
-    @JoinColumn({ name: 'user_id' })
-    user: User;
-*/
 

@@ -1,33 +1,18 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
 
-@Entity("users")
-class User {
+@Entity("types")
+class Type {
 
     @PrimaryGeneratedColumn('uuid')
     //readonly -> quem acessar User, não conseguirá alterar o valor do "id"
     readonly id: string;
-    
-    
 
     @Column()
-    name: string;
+    image: string;
 
     @Column()
-    matricula: string;
-
-    @Column()
-    email: string;
-
-    @Column()
-    password: string;
-
-    @Column()
-    whatsapp: string;
-
-    @Column()
-    avatar: string;
-
+    title: string;
     
     @CreateDateColumn()
     created_at: Date;
@@ -44,4 +29,4 @@ class User {
 
 }
 
-export default User;
+export default Type;

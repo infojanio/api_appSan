@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
-import { UsersRepository } from '../repositories/UsersRepository';
+import UsersRepository from '../repositories/UsersRepository';
 
 class UserController {
 
@@ -28,6 +28,9 @@ class UserController {
         
         return response.status(201).json(user);
     }
+
+    //método para atualizar
+    
 }
 
-export { UserController };
+export default UserController;
