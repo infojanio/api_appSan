@@ -6,7 +6,7 @@ class PointController {
 
     //método para salvar
     async create(request: Request, response:Response) {
-        const { provider_id, type_id, meter, image, latitude, longitude, city, uf } = request.body;        
+        const { provider_id, type_id, date, meter, image, latitude, longitude, city, uf } = request.body;        
         const pointsRepository = getCustomRepository(PointsRepository);
         
         //Não permite que salvamos usuários com email repetido
@@ -14,7 +14,8 @@ class PointController {
 
         const point = pointsRepository.create({   
             provider_id,
-            type_id,          
+            type_id, 
+            date,         
             meter,
             image,
             latitude,

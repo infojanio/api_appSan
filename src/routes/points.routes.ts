@@ -1,11 +1,19 @@
 import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import { parseISO } from 'date-fns';
+import multer from 'multer';
+
+import uploadConfig from '../config/upload';
 
 import PointsRepository from '../repositories/PointsRepository';
 import CreatePointService from '../services/CreatePointService';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const pointsRouter = Router();
+const upload = multer(uploadConfig); 
+
+pointsRouter.use(ensureAuthenticated); //requer condição logado para acessar rota de envio de ponto
 
 
 //retorna todos os pontos de vazamento
@@ -48,5 +56,12 @@ pointsRouter.post('/', async(request, response) => {
     }
     
 });
+
+    //atualiza uma única informação - upload de imagem 
+    pointsRouter.patch('/foto', ensureAuthenticated, upload.single('foto'), 
+    async(request, response) => {
+        console.log(request.file);
+        return response.json({ok:true});
+    }); 
 
  export default pointsRouter;

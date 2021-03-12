@@ -20,6 +20,7 @@ class CreatePointService {
     public async execute ({provider_id, type_id, date, meter, image, latitude, longitude, city, uf}: Request): Promise<Point> {
         const pointsRepository = getCustomRepository(PointsRepository);
 
+        /*
         const pointDate = startOfHour(date);
        // const parsedDate = parseISO(date);
 
@@ -31,6 +32,7 @@ class CreatePointService {
         if (findPointInSameDate) {
             throw Error ('Erro ao informar ponto de vazamento!');
         } 
+        */
 
     //verifica já foi informado, não poderá haver vários pontos de vazamento para o mesmo hidrômetro
         const checkTypeExists = await pointsRepository.findOne({
@@ -47,7 +49,7 @@ class CreatePointService {
         const point = pointsRepository.create({
             provider_id,
             type_id,
-            date: pointDate, 
+            date, 
             meter, 
             image, 
             latitude, 

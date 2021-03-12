@@ -1,10 +1,15 @@
 import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
+import multer from 'multer';
+
+import uploadConfig from '../config/upload';
 
 import CreateUserService from '../services/CreateUserService';
 import UsersRepository from '../repositories/UsersRepository';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
+const upload = multer(uploadConfig);
 
 //retorna todos os pontos de vazamento
 usersRouter.get('/', async(request, response)=> {
@@ -13,7 +18,6 @@ usersRouter.get('/', async(request, response)=> {
 
     return response.json(users);
 });
-
 
 usersRouter.post('/', async(request, response) => {
     try {
@@ -40,5 +44,11 @@ usersRouter.post('/', async(request, response) => {
         return response.status(400).json({err: "Erro ao cadastrar usuário!" });
     }
 });
-
+     
+    //atualiza uma única informação 
+    usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), 
+    async(request, response) => {
+        console.log(request.file);
+        return response.json({ok:true});
+    });  
  export default usersRouter;

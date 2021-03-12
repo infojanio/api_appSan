@@ -1,8 +1,9 @@
 import { compare } from 'bcryptjs';
 import { getRepository } from 'typeorm';
-//import { hash } from 'bcryptjs'
+import { sign } from 'jsonwebtoken';
 import User from '../models/User';
-import UsersRepository from '../repositories/UsersRepository';
+import authConfig from '../config/auth';
+
 
 
 interface Request {
@@ -12,6 +13,7 @@ interface Request {
 
 interface Response {
     user: User;
+    token: string;
 }
 
 class AuthenticateUserService {
@@ -34,9 +36,18 @@ class AuthenticateUserService {
         if (!passwordMatched) {
             throw new Error('Matrícula ou senha incorreta!');
         }
+        
+        const { secret, expiresIn } = authConfig.jwt;
         //aqui usuário autenticado
+        const token = sign({}, secret, {
+            subject: user.id,
+            expiresIn,
+        });
+
+
         return {
             user,
+            token,
         };
 
      }
