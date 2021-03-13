@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import multer from 'multer';
 
 import uploadConfig from '../config/upload';
+import UpdateTypeImageService from '../services/UpdateTypeImageService';
 
 import CreateTypeService from '../services/CreateTypeService';
 import TypesRepository from '../repositories/TypesRepository';
@@ -39,9 +40,26 @@ typesRouter.post('/', async(request, response) => {
     }
 });
     //atualiza uma única informação - upload de imagem 
+    //atualiza uma única informação 
     typesRouter.patch('/image', ensureAuthenticated, upload.single('image'), 
     async(request, response) => {
-        console.log(request.file);
-        return response.json({ok:true});
+        
+        try {
+            const updateTypeImage = new UpdateTypeImageService();
+
+            const type = await updateTypeImage.execute({
+
+            id: request.body.id,
+            imageFilename: request.file.filename,
+            });
+
+            return response.json(type);
+
+        } catch (error) {
+            return response.status(400).json({err: error.message });
+        }
     });  
+
+// Cria ou Atualiza a imagem do tipo de vazamento
+
  export default typesRouter;

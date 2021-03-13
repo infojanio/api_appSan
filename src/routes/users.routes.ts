@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import multer from 'multer';
 
 import uploadConfig from '../config/upload';
+import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 import CreateUserService from '../services/CreateUserService';
 import UsersRepository from '../repositories/UsersRepository';
@@ -15,6 +16,7 @@ const upload = multer(uploadConfig);
 usersRouter.get('/', async(request, response)=> {
     const usersRepository = getCustomRepository(UsersRepository);
     const users = await usersRepository.find(); 
+    
 
     return response.json(users);
 });
@@ -48,7 +50,46 @@ usersRouter.post('/', async(request, response) => {
     //atualiza uma única informação 
     usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), 
     async(request, response) => {
-        console.log(request.file);
-        return response.json({ok:true});
+        
+        try {
+            const updateUserAvatar = new UpdateUserAvatarService();
+            const user = await updateUserAvatar.execute({
+
+            user_id: request.user.id,
+            avatarFilename: request.file.filename,
+            });
+
+            //deleta retorna da senha
+            delete user.password;
+
+            return response.json(user);
+
+        } catch (error) {
+            return response.status(400).json({err: error.message });
+        }
     });  
  export default usersRouter;
+
+
+
+  /* Se der erro ao remover o retorno da senha do usuário, resolução abaixo
+        
+// Com a atualização do TypeScript, isso se faz necessário
+    const userWithoutPassword = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    };
+    return response.json(userWithoutPassword);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
+    return response.json(userWithoutPassword);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
+        */

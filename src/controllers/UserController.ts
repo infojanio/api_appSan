@@ -6,15 +6,19 @@ class UserController {
 
     //método para salvar
     async create(request: Request, response:Response) {
-        const { name, email } = request.body;        
+        const { name, matricula, email, password, whatsapp, avatar } = request.body;        
         const usersRepository = getCustomRepository(UsersRepository);
         
         //Não permite que salvamos usuários com email repetido
-        const userAlreadyExists = await usersRepository.findOne({email})  //findOne({email}) => SELECT * FROM USERS WHERE EMAIL = "EMAIL" 
+        const userAlreadyExists = await usersRepository.findOne({matricula})  //findOne({email}) => SELECT * FROM USERS WHERE EMAIL = "EMAIL" 
 
         const user = usersRepository.create({
             name, 
+            matricula,
             email,
+            password, 
+            whatsapp,
+            avatar
         });
 
         //verifica se o usuário já existe

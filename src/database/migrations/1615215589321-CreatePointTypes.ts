@@ -56,8 +56,8 @@ export default class CreatePointTypes1615215589321 implements MigrationInterface
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
         columnNames: ['provider_id'],
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
+        onUpdate: 'RESTRICT',
       },
 
       {
@@ -65,8 +65,8 @@ export default class CreatePointTypes1615215589321 implements MigrationInterface
         referencedTableName: 'points',
         referencedColumnNames: ['id'],
         columnNames: ['point_id'],
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
+        onUpdate: 'RESTRICT',
       },
     
       {
@@ -74,8 +74,8 @@ export default class CreatePointTypes1615215589321 implements MigrationInterface
         referencedTableName: 'types',
         referencedColumnNames: ['id'],
         columnNames: ['type_id'],
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
+        onUpdate: 'RESTRICT',
       },
     ],
 

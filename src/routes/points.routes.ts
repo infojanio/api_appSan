@@ -9,6 +9,7 @@ import PointsRepository from '../repositories/PointsRepository';
 import CreatePointService from '../services/CreatePointService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import UpdatePointFotoService from '../services/UpdatePointFotoService';
 
 const pointsRouter = Router();
 const upload = multer(uploadConfig); 
@@ -58,10 +59,25 @@ pointsRouter.post('/', async(request, response) => {
 });
 
     //atualiza uma única informação - upload de imagem 
-    pointsRouter.patch('/foto', ensureAuthenticated, upload.single('foto'), 
-    async(request, response) => {
-        console.log(request.file);
-        return response.json({ok:true});
-    }); 
+//atualiza uma única informação 
+pointsRouter.patch('/foto', ensureAuthenticated, upload.single('image'), 
+async(request, response) => {
+    
+    try {
+        const updatePointFoto = new UpdatePointFotoService();
+
+        const point = await updatePointFoto.execute({
+
+        id: request.body.id,
+        fotoFilename: request.file.filename,
+        });
+
+        return response.json(point);
+
+    } catch (error) {
+        return response.status(400).json({err: error.message });
+    }
+});  
+
 
  export default pointsRouter;

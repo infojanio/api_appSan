@@ -19,8 +19,8 @@ export class AddProviderIdToPoints1615483184097 implements MigrationInterface {
               columnNames: ['provider_id'],
               referencedColumnNames: ['id'],
               referencedTableName: 'users',
-              onDelete: 'CASCADE', // Se o usuário for deletado, todos os agendamentos ficarão null
-              onUpdate: 'CASCADE', // Se o id do usuário for alterado, vai refletir em todos os relacionamentos, poin
+              onDelete: 'RESTRICT', // Se o usuário for deletado, os pontos não serão deletados
+              onUpdate: 'RESTRICT', // Se o id do usuário for alterado, não vai refletir em todos os relacionamentos, poin
             }),
           );
         }

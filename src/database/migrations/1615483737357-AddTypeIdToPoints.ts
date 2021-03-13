@@ -19,8 +19,9 @@ export class AddTypeIdToPoints1615483737357 implements MigrationInterface {
               columnNames: ['type_id'],
               referencedColumnNames: ['id'],
               referencedTableName: 'types',
-              onDelete: 'CASCADE', // Se o usuário for deletado, todos os agendamentos ficarão null
-              onUpdate: 'CASCADE', // Se o id do usuário for alterado, vai refletir em todos os relacionamentos, poin
+              onDelete: 'RESTRICT', // Se o usuário for deletado, os pontos não serão deletados
+              onUpdate: 'RESTRICT', // Se o id do usuário for alterado, não vai refletir em todos os relacionamentos, poin
+            
             }),
           );
         
