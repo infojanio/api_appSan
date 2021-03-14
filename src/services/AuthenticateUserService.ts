@@ -1,8 +1,10 @@
 import { compare } from 'bcryptjs';
 import { getRepository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
+
 import User from '../models/User';
 import authConfig from '../config/auth';
+import AppError from '../errors/AppError';
 
 
 
@@ -21,20 +23,20 @@ class AuthenticateUserService {
     public async execute({matricula, password}:Request): Promise<Response> {
         const usersRepository = getRepository(User);
 
-        //verifica se o usuário existe, não poderá haver usuários duplicados
+        //verifica se o usuário , 401existe, não poderá haver usuários duplicados
         const user = await usersRepository.findOne({
             where: { matricula },
         });
 
         if(!user) { //se digitar dados diferentes
-            throw new Error ('Matrícula ou senha incorreta!');
+            throw new AppError ('Matrícula ou senha incorreta!', 401);
         }
         //user.password -> senha criptografada
         //password -> senha não criptograda
         const passwordMatched = await compare(password, user.password); 
 
         if (!passwordMatched) {
-            throw new Error('Matrícula ou senha incorreta!');
+            throw new AppError('Matrícula ou senha incorreta!', 401);
         }
         
         const { secret, expiresIn } = authConfig.jwt;
@@ -42,7 +44,7 @@ class AuthenticateUserService {
         const token = sign({}, secret, {
             subject: user.id,
             expiresIn,
-        });
+       });
 
 
         return {

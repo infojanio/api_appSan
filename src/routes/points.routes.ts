@@ -27,7 +27,7 @@ pointsRouter.get('/', async(request, response)=> {
 
 //cria pontos de vazamento
 pointsRouter.post('/', async(request, response) => {
-    try {
+
         const {provider_id, type_id, date, meter, image, latitude, longitude, city, uf}= request.body;
 
         const parseDate = parseISO(date); 
@@ -48,22 +48,14 @@ pointsRouter.post('/', async(request, response) => {
         });
 
         return response.status(201).json(point);
-        
-    } 
-    catch (err) {
-        
-        return response.status(400).json({err:"Erro ao cadastrar o ponto de vazamento!"});
-        
-    }
-    
+           
 });
 
     //atualiza uma única informação - upload de imagem 
 //atualiza uma única informação 
 pointsRouter.patch('/foto', ensureAuthenticated, upload.single('image'), 
 async(request, response) => {
-    
-    try {
+
         const updatePointFoto = new UpdatePointFotoService();
 
         const point = await updatePointFoto.execute({
@@ -74,10 +66,7 @@ async(request, response) => {
 
         return response.json(point);
 
-    } catch (error) {
-        return response.status(400).json({err: error.message });
-    }
-});  
+    });  
 
 
  export default pointsRouter;

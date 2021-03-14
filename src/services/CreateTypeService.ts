@@ -3,6 +3,7 @@ import { getCustomRepository, getRepository } from 'typeorm';
 import TypeController from '../controllers/TypeController';
 import Type from '../models/Type';
 import TypesRepository from '../repositories/TypesRepository';
+import AppError from '../errors/AppError';
 
 interface Request {
 image: string; 
@@ -21,7 +22,7 @@ class CreateTypeService {
         });
 
         if(checkTypeExists) {
-            throw new Error ('Tipo de vazamento já cadastrado!');
+            throw new AppError ('Tipo de vazamento já cadastrado!');
         }
 
         const type = typesRepository.create({

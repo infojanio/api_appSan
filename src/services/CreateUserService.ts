@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import { hash } from 'bcryptjs'
 import User from '../models/User';
 import UsersRepository from '../repositories/UsersRepository';
+import AppError from '../errors/AppError';
 
 interface Request {
 name: string; 
@@ -23,7 +24,7 @@ class CreateUserService {
         });
 
         if(checkUserExists) {
-            throw new Error ('Usuário com essa matrícula já cadastrado!');
+            throw new AppError ('Usuário com essa matrícula já cadastrado!');
         }
 
         //criptografa a senha do usuário

@@ -4,6 +4,7 @@ import fs from 'fs';
 
 import uploadConfig from '../config/upload';
 import Point from '../models/Point';
+import AppError from '../errors/AppError';
 
 interface Request {
     id: string;
@@ -22,7 +23,7 @@ class UpdatePointFotoService {
             //não encontrar o id do ponto
             console.log(point.id)
             console.log(point.image)
-            throw new Error('Apenas pontos cadastrados podem ser alterados!');
+            throw new AppError('Apenas pontos cadastrados podem ser alterados!', 401);
         }
 
         //se o ponto tiver image

@@ -3,7 +3,8 @@ import path from 'path';
 import fs from 'fs'; 
 
 import uploadConfig from '../config/upload';
-import Type from '../models/Type'
+import Type from '../models/Type';
+import AppError from '../errors/AppError';
 
 interface Request {
     id: string;
@@ -22,7 +23,7 @@ class UpdateTypeImageService {
             //não encontrar o id do tipo
             console.log(type.id)
             console.log(type.image)
-            throw new Error('Apenas tipos cadastrados podem ser alterados!');
+            throw new AppError('Apenas tipos cadastrados podem ser alterados!', 401);
         }
 
         //se o tipo tiver image

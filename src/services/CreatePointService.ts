@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 
 import Point from '../models/Point';
 import PointsRepository from '../repositories/PointsRepository';
+import AppError from '../errors/AppError';
 
 interface Request {
 provider_id: string;
@@ -40,7 +41,7 @@ class CreatePointService {
         });
 
         if(checkTypeExists) {
-            throw new Error ('Tipo de vazamento já cadastrado!');
+            throw new AppError ('Tipo de vazamento já cadastrado!');
         }
 
         //const parsedDate = parseISO(date);

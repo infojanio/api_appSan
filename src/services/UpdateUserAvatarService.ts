@@ -3,7 +3,8 @@ import path from 'path';
 import fs from 'fs'; 
 
 import uploadConfig from '../config/upload';
-import User from '../models/User'
+import User from '../models/User';
+import AppError from '../errors/AppError';
 
 interface Request {
     user_id: string;
@@ -19,7 +20,7 @@ class UpdateUserAvatarService {
 
         //se o usuário não tiver autenticado
         if(!user){
-            throw new Error('Apenas usuários autenticados podem alterar avatar!');
+            throw new AppError('Apenas usuários autenticados podem alterar avatar!', 401);
         }
 
         //se o usuário tiver avatar

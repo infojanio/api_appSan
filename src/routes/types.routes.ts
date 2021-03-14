@@ -44,7 +44,6 @@ typesRouter.post('/', async(request, response) => {
     typesRouter.patch('/image', ensureAuthenticated, upload.single('image'), 
     async(request, response) => {
         
-        try {
             const updateTypeImage = new UpdateTypeImageService();
 
             const type = await updateTypeImage.execute({
@@ -55,9 +54,7 @@ typesRouter.post('/', async(request, response) => {
 
             return response.json(type);
 
-        } catch (error) {
-            return response.status(400).json({err: error.message });
-        }
+      
     });  
 
 // Cria ou Atualiza a imagem do tipo de vazamento
