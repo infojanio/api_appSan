@@ -1,5 +1,7 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, ManyToOne, JoinColumn, ManyToMany, JoinTable } from "typeorm";
 import { v4 as uuid } from 'uuid';
+
+import Point from '../models/Point';
 
 @Entity("types")
 class Type {
@@ -8,12 +10,18 @@ class Type {
     //readonly -> quem acessar User, não conseguirá alterar o valor do "id"
     readonly id: string;
 
+
+  /* modo gostack
+
+*/
+
     @Column()
     image: string;
 
     @Column()
     title: string;
-    
+
+
     @CreateDateColumn()
     created_at: Date;
 

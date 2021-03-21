@@ -15,8 +15,8 @@ const upload = multer(uploadConfig);
 //retorna todos os pontos de vazamento
 usersRouter.get('/', async(request, response)=> {
     const usersRepository = getCustomRepository(UsersRepository);
-    const users = await usersRepository.find(); 
-    
+    const users = await usersRepository.find();
+
 
     return response.json(users);
 });
@@ -41,16 +41,16 @@ usersRouter.post('/', async(request, response) => {
         delete user.password;
 
         return response.status(201).json(user);
-    } 
+    }
     catch (err) {
         return response.status(400).json({err: "Erro ao cadastrar usuário!" });
     }
 });
-     
-    //atualiza uma única informação 
-    usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), 
+
+    //atualiza uma única informação
+    usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'),
     async(request, response) => {
-        
+
                   const updateUserAvatar = new UpdateUserAvatarService();
             const user = await updateUserAvatar.execute({
 
@@ -63,13 +63,13 @@ usersRouter.post('/', async(request, response) => {
 
             return response.json(user);
 
-          });  
+          });
  export default usersRouter;
 
 
 
   /* Se der erro ao remover o retorno da senha do usuário, resolução abaixo
-        
+
 // Com a atualização do TypeScript, isso se faz necessário
     const userWithoutPassword = {
       id: user.id,

@@ -5,6 +5,7 @@ import multer from 'multer';
 
 import uploadConfig from '../config/upload';
 
+import PointsController from '../controllers/PointsController';
 import PointsRepository from '../repositories/PointsRepository';
 import CreatePointService from '../services/CreatePointService';
 
@@ -12,48 +13,32 @@ import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import UpdatePointFotoService from '../services/UpdatePointFotoService';
 
 const pointsRouter = Router();
-const upload = multer(uploadConfig); 
+const pointsController = new PointsController();
+
+
+const upload = multer(uploadConfig);
 
 pointsRouter.use(ensureAuthenticated); //requer condição logado para acessar rota de envio de ponto
 
 
 //retorna todos os pontos de vazamento
-pointsRouter.get('/', async(request, response)=> {
-    const pointsRepository = getCustomRepository(PointsRepository);
-    const points = await pointsRepository.find(); //busca todos os dados
+pointsRouter.get('/', pointsController.index);
 
-    return response.json(points);
-});
+
+//listar 1 ponto de vazamento específico
+pointsRouter.get('/:id', pointsController.show);
+
+pointsRouter.get('/:id', pointsController.filter )
+
 
 //cria pontos de vazamento
-pointsRouter.post('/', async(request, response) => {
+pointsRouter.post('/', pointsController.create);
 
-        const {provider_id, type_id, date, meter, image, latitude, longitude, city, uf}= request.body;
 
-        const parseDate = parseISO(date); 
 
-        const createPoint = new CreatePointService();
-    
-        const point = await createPoint.execute({ 
-            provider_id,
-            type_id,       
-            date: parseDate, 
-            meter, 
-            image, 
-            latitude, 
-            longitude, 
-            city, 
-            uf,
-
-        });
-
-        return response.status(201).json(point);
-           
-});
-
-    //atualiza uma única informação - upload de imagem 
-//atualiza uma única informação 
-pointsRouter.patch('/foto', ensureAuthenticated, upload.single('image'), 
+//atualiza uma única informação - upload de imagem
+//atualiza uma única informação
+pointsRouter.patch('/foto', ensureAuthenticated, upload.single('image'),
 async(request, response) => {
 
         const updatePointFoto = new UpdatePointFotoService();
@@ -66,7 +51,7 @@ async(request, response) => {
 
         return response.json(point);
 
-    });  
+    });
 
 
  export default pointsRouter;

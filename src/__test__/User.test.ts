@@ -12,17 +12,17 @@ describe ("Users", ()=> {
     //Roda as migrations antes de executar os testes para criar as tabelas
     beforeAll(async()=> {
 
-        connection = await createConnection('test_nlw4');  
-        
-       
+        connection = await createConnection('test_nlw4');
+
+
        await connection.query('DELETE FROM users');
-        await connection.runMigrations(); 
+        await connection.runMigrations();
     })
 
-     
+
       afterAll(async () => {
         const mainConnection = getConnection();
-    
+
         await connection.close();
         await mainConnection.close();
       });
@@ -33,7 +33,7 @@ describe ("Users", ()=> {
     it("Testa a criação de novo usuário", async()=> {
         const response = await request(app).post("/users").send({
             email: "janio@example.com",
-            name: "User Example" 
+            name: "User Example"
     });
         expect (response.status).toBe(201);
     });
@@ -42,7 +42,7 @@ describe ("Users", ()=> {
         it("Testa a criação de usuário com mesmo email", async()=> {
             const response = await request(app).post("/users").send({
                 email: "janio@example.com",
-                name: "User Example" 
+                name: "User Example"
         });
             expect (response.status).toBe(400);
         });
