@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { getCustomRepository, getRepository, Repository } from 'typeorm';
-import Point from '../models/Point';
+import { getCustomRepository } from 'typeorm';
 import PointsRepository from '../repositories/PointsRepository';
 
 //padrão de uso de métodos, index(listar todos), show (listar 1 especifico), create(criar), update e delete
@@ -43,40 +42,26 @@ class PointController {
 
 
   public async filter(request: Request, response: Response): Promise<Response> {
+    const { city } = request.query;
 
-    try {
-      //const { id } = request.params;
-      const { city } = request.query;
+    const findByCity = getCustomRepository(PointsRepository);
 
+    const point = await findByCity.findOne({ where: {city}  });
 
-      const pointsRepository = getCustomRepository(PointsRepository);
-      const point = await pointsRepository.findOne(id);
-
-      const cidade = point.city;
-
-        const pointByCity = await pointsRepository.find({
-        where: { cidade }
-       });
-       console.log(city);
-
-        return response.json(pointByCity);
-      } catch (err) {
-        return response.status(400).json({ err: "Erro ao listar o ponto de vazamento!" });
-
-      }
+    return response.json(point);
   }
+
+
+
+
 
 
   //método para listar
   async index(request: Request, response: Response) {
     try {
-//    const { city } = request.query;
+    const pointsRepository = getCustomRepository(PointsRepository);
 
-      const pointsRepository = getCustomRepository(PointsRepository);
-
-      const points = await pointsRepository.find();
-
-
+    const points = await pointsRepository.find();
 
       return response.json(points);
     } catch (err) {
@@ -88,9 +73,9 @@ class PointController {
   //Lista 1 ponto específico
   async show(request: Request, response: Response) {
     try {
-    const { id } = request.params;
+      const { id } = request.params;
     const pointsRepository = getCustomRepository(PointsRepository);
-      const point = await pointsRepository.findOne(id);
+    const point = await pointsRepository.findOne(id);
 
       return response.json(point);
     } catch (err) {
