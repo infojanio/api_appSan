@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Request, Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import { parseISO } from 'date-fns';
 import multer from 'multer';
@@ -11,9 +11,11 @@ import CreatePointService from '../services/CreatePointService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import UpdatePointFotoService from '../services/UpdatePointFotoService';
+import FindPointsByCityService from '../services/FindPointsByCityService';
 
 const pointsRouter = Router();
 const pointsController = new PointsController();
+
 
 
 const upload = multer(uploadConfig);
@@ -28,11 +30,8 @@ pointsRouter.get('/', pointsController.index);
 //listar 1 ponto de vazamento específico
 pointsRouter.get('/:id', pointsController.show);
 
-pointsRouter.get('/:id', pointsController.filter )
 
-
-//cria pontos de vazamento
-pointsRouter.post('/', pointsController.create);
+pointsRouter.get('/list/:city', pointsController.filter);
 
 
 
