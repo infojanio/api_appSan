@@ -3,6 +3,7 @@ import { getCustomRepository, getRepository } from 'typeorm';
 import Point from '../models/Point';
 import PointsRepository from '../repositories/PointsRepository';
 import FindPointsByCityService from '../services/FindPointsByCityService';
+import FindPointsByTypeService from '../services/FindPointsByTypeService';
 
 //padrão de uso de métodos, index(listar todos), show (listar 1 especifico), create(criar), update e delete
 
@@ -43,7 +44,7 @@ class PointController {
   }
 
 
-  public async filter(request: Request, response: Response): Promise<Response> {
+  public async filterCity(request: Request, response: Response): Promise<Response> {
     const { city } = request.params;
 
     const findPointsByCity = new FindPointsByCityService();
@@ -56,20 +57,32 @@ class PointController {
   }
 
 /*
+   try {
+      const { id } = request.params;
+    const pointsRepository = getCustomRepository(PointsRepository);
+    const point = await pointsRepository.findOne(id);
 
-pointsRouter.get('/list/:city', async (request, response) => {
-  const { city } = request.params;
-  const findPointsByCity = new FindPointsByCityService();
+      return response.json(point);
+    } catch (err) {
+      return response.status(400).json({ err: "Erro ao listar o ponto de vazamento!" });
 
-  const points = await findPointsByCity.execute({ city });
+    }
+}
+*/
+
+
+  public async filterType(request: Request, response: Response): Promise<Response> {
+    const { typeId } = request.params;
+
+    const findPointsByType = new FindPointsByTypeService();
+
+    const points = await findPointsByType.execute({typeId} );
 
   console.log(points);
   return response.json(points);
 
-});
-//cria pontos de vazamento
-pointsRouter.post('/', pointsController.create);
-*/
+  }
+
 
 
   //método para listar

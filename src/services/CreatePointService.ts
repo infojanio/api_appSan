@@ -35,8 +35,7 @@ class CreatePointService {
         }
 
       const point = pointsRepository.create({
-        userId,
-
+          userId,
             date,
             meter,
             image,
@@ -44,10 +43,11 @@ class CreatePointService {
             longitude,
             city,
             uf,
-        status,
-        typeId,
+          status,
+          typeId,
 
         });
+
 
         await pointsRepository.save(point);
         return point;

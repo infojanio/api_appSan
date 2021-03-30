@@ -22,6 +22,7 @@ const upload = multer(uploadConfig);
 
 pointsRouter.use(ensureAuthenticated); //requer condição logado para acessar rota de envio de ponto
 
+pointsRouter.post('/', pointsController.create);
 
 //retorna todos os pontos de vazamento
 pointsRouter.get('/', pointsController.index);
@@ -31,7 +32,9 @@ pointsRouter.get('/', pointsController.index);
 pointsRouter.get('/:id', pointsController.show);
 
 
-pointsRouter.get('/list/:city', pointsController.filter);
+pointsRouter.get('/filterCity/:city', pointsController.filterCity); //filtrar por cidade
+
+pointsRouter.get('/filterType:typeId', pointsController.filterType); //filtrar por tipo
 
 
 

@@ -10,13 +10,13 @@ class PointsRepository extends Repository<Point> {
 
 
   //filtrar por cidade
-  public async findByName(city: string): Promise<Point | null> {
-    const findCity = await this.ormRepository.findOne({
+  public async findByType(typeId: string): Promise<Point | null> {
+    const findType = await this.findOne({
       where: {
-        city,
+        typeId,
       },
     });
-    return findCity;
+    return findType || null;
   }
 
 
